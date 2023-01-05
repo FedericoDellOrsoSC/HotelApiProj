@@ -51,36 +51,36 @@ namespace HotelProj.Controllers
 
         // GET: api/Prenotation/room/RoomId
         [HttpGet("room/{RoomId}")]
-        public async Task<IQueryable<Prenotation>> GetPrenotationbyRoom(int RoomId)
+        public async Task<ActionResult<List<Prenotation>>> GetPrenotationbyRoom(int RoomId)
         {
-            //if (_context.prenotations == null)
-            //{
-            //    return NotFound();
-            //}
-            var prenotationlistByRoom = _context.prenotations.Where(prenotation => prenotation.roomId==RoomId);
+            if (_context.prenotations == null)
+            {
+                return NotFound();
+            }
+            var prenotationlistByRoom = _context.prenotations.Where(prenotation => prenotation.roomId==RoomId).ToList();
 
-            //if (prenotationlist == null)
-            //{
-            //    return NotFound();
-            //}
+            if (!prenotationlistByRoom.Any())
+            {
+                return NotFound();
+            }
 
             return prenotationlistByRoom;
         }
 
         // GET: api/Prenotation/guest/{guestID}
         [HttpGet("guest/{GuestId}")]
-        public async Task<IQueryable<Prenotation>> GetPrenotationbyGuest(int GuestId)
+        public async Task<ActionResult<List<Prenotation>>> GetPrenotationbyGuest(int GuestId)
         {
-            //if (_context.prenotations == null)
-            //{
-            //    throw null;
-            //}
-            var prenotationlistByGuest = _context.prenotations.Where(prenotation => prenotation.roomId == GuestId);
+            if (_context.prenotations == null)
+            {
+                return NotFound();
+            }
+            var prenotationlistByGuest = _context.prenotations.Where(prenotation => prenotation.roomId == GuestId).ToList();
 
-            //if (prenotationlistByGuest.AsEnumerable() == null)
-            //{
-            //    return NotFound();
-            //}
+            if (!prenotationlistByGuest.Any())
+            {
+                return NotFound();
+            }
 
 
             return prenotationlistByGuest;
