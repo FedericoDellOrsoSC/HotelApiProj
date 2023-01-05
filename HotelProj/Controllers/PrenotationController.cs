@@ -86,6 +86,26 @@ namespace HotelProj.Controllers
             return prenotationlistByGuest;
         }
 
+        // GET: api/Prenotation/guestName
+        [HttpGet("guestName")]
+        public async Task<ActionResult<List<Prenotation>>> GetPrenotationbyGuestName(string GuestName,string GuestLastName)
+        {
+            if (_context.prenotations == null)
+            {
+                return NotFound();
+            }
+            var GuestInfolist = _context.PersonalInfos.Where(guest => (guest.FirstName== GuestName) && (guest.LastName==GuestLastName)).ToList();
+            if (!GuestInfolist.Any()) { return NotFound(); }
+            var PrenotationByGuest = _context.prenotations.Where(prenotation => prenotation.guestId == GuestInfolist[0].Id).ToList();
+            if (!PrenotationByGuest.Any())
+            {
+                return NotFound();
+            }
+
+
+            return PrenotationByGuest;
+        }
+
         // PUT: api/Prenotation/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
